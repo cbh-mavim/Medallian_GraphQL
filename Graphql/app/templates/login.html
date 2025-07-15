@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mavim GraphQL Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #611f69, #421c52, #1e003d);
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bg-animation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+      perspective: 1000px;
+    }
+
+    .floating-cube {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      transform-style: preserve-3d;
+      animation: float 15s infinite ease-in-out;
+    }
+
+    .cube-face {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      opacity: 0.8;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      animation: colorChange 5s infinite;
+    }
+
+    .cube-face.front { transform: rotateY(0deg) translateZ(30px); }
+    .cube-face.back { transform: rotateY(180deg) translateZ(30px); }
+    .cube-face.right { transform: rotateY(90deg) translateZ(30px); }
+    .cube-face.left { transform: rotateY(-90deg) translateZ(30px); }
+    .cube-face.top { transform: rotateX(90deg) translateZ(30px); }
+    .cube-face.bottom { transform: rotateX(-90deg) translateZ(30px); }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+      25% { transform: translateY(-30px) rotateX(90deg) rotateY(90deg); }
+      50% { transform: translateY(-20px) rotateX(180deg) rotateY(180deg); }
+      75% { transform: translateY(-40px) rotateX(270deg) rotateY(270deg); }
+    }
+
+    @keyframes colorChange {
+      0% { background: #e91e63; }
+      20% { background: #2196f3; }
+      40% { background: #4caf50; }
+      60% { background: #ff9800; }
+      80% { background: #9c27b0; }
+      100% { background: #e91e63; }
+    }
+
+    .cube-1 { top: 10%; left: 5%; animation-delay: 0s; }
+    .cube-2 { top: 60%; right: 10%; animation-delay: 2s; }
+    .cube-3 { bottom: 25%; left: 15%; animation-delay: 4s; }
+    .cube-4 { top: 35%; right: 35%; animation-delay: 6s; }
+    .cube-5 { bottom: 45%; left: 55%; animation-delay: 8s; }
+    .cube-6 { top: 10%; right: 25%; animation-delay: 10s; }
+    .cube-7 { bottom: 15%; right: 30%; animation-delay: 12s; }
+    .cube-8 { top: 75%; left: 45%; animation-delay: 14s; }
+    .cube-9 { top: 25%; left: 25%; animation-delay: 16s; }
+    .cube-10 { bottom: 60%; right: 5%; animation-delay: 18s; }
+    .cube-11 { top: 80%; left: 10%; animation-delay: 20s; }
+    .cube-12 { top: 50%; left: 5%; animation-delay: 22s; }
+
+    .login-container {
+      position: relative;
+      z-index: 10;
+      background: white;
+      border-radius: 24px;
+      padding: 48px;
+      width: 440px;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .login-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 28px;
+      color: #611f69;
+      margin-bottom: 16px;
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 36px;
+    }
+
+    .login-btn {
+      background: #611f69;
+      color: white;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(97, 31, 105, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-text {
+  color: #ec407a;
+}
+
+.logo-dot {
+  color: #ec407a;
+}
+
+    .login-btn:hover {
+      background: #4e1856;
+      box-shadow: 0 8px 24px rgba(97, 31, 105, 0.4);
+    }
+
+    .microsoft-icon {
+      width: 20px;
+      height: 20px;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21"><path fill="%23f25022" d="M1 1h9v9H1z"/><path fill="%2300a4ef" d="M12 1h9v9h-9z"/><path fill="%237fba00" d="M1 12h9v9H1z"/><path fill="%23ffb900" d="M12 12h9v9h-9z"/></svg>') no-repeat center;
+      background-size: contain;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation">
+    <!-- 12 floating cubes -->
+    <div class="floating-cube cube-1"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-2"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-3"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-4"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-5"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-6"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-7"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-8"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-9"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-10"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-11"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+    <div class="floating-cube cube-12"><div class="cube-face front"></div><div class="cube-face back"></div><div class="cube-face right"></div><div class="cube-face left"></div><div class="cube-face top"></div><div class="cube-face bottom"></div></div>
+  </div>
+
+  <div class="login-container">
+    <div class="logo">
+  <span class="logo-text">mavim</span><span class="logo-dot">.</span>
+</div>
+    <h1>GraphQL Portal</h1>
+    <p class="subtitle">Login with Microsoft to continue</p>
+    <form action="/auth/login">
+      <button class="login-btn" type="submit">
+        <div class="microsoft-icon"></div>
+        Continue with Microsoft
+      </button>
+    </form>
+  </div>
+</body>
+</html>
